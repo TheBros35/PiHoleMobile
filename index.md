@@ -10,7 +10,7 @@ After doing the initial install of Ubuntu, and updating all packages, jump into 
 
     curl -sSL https://install.pi-hole.net | bash
 
-(obtained from https://github.com/pi-hole/pi-hole/#one-step-automated-install)
+(obtained from [https://github.com/pi-hole/pi-hole/#one-step-automated-install](https://github.com/pi-hole/pi-hole/#one-step-automated-install))
 
 I picked the default options. After install, we need to change the system resolver to point at your PiHole. To do this for Ubuntu, edit your **/etc/netplan/50-cloud-init.yaml** file by running:
 
@@ -36,20 +36,26 @@ Install WireGuard using this command:
 
 This command is using [this wonderful script written by Nyr](https://github.com/Nyr/wireguard-install). This will setup WireGuard, and will provide an easy to use script for adding new devices to your server. 
 
-It will ask you which IPv4 address it should use - pick the one that is not a private address. On both servers that I have setup recently, it is the first option. It will then ask for the port - I allowed it to use the default, **51820**. Then, it will ask for a first client name - I'm using ba-iphone, but it is up to you. For the DNS resolver, use the system resolver.
+It will ask you which IPv4 address it should use - pick the one that is not a private address. On both servers that I have setup recently, it is the first option. It will then ask for the port - I allowed it to use the default, **51820**. Then, it will ask for a first client name - I'm using **ba-iphone**, but it is up to you. For the DNS resolver, use the **Current System Resolvers**, which should be the default choice.
 
 ![screenshot](images/ss.png)
 
 Anytime you add a client with this script, including upon first run, it will generate both a QR code and a config file. You can scan the QR code with the official WireGuard app - this will add all of the values from the .conf file.
 
+## Correct DNS Entry
+
+We need to correct the DNS entries that WireGuard has loaded into the config file. I have submitted a PR to have an option added for this - but for now, we will have to edit this ***every time a new client is added***.
+
+If you loaded the VPN config via the QR code, go into your WireGuard app, and edit the **DNS Servers** option to have a value of **10.7.0.1**. If you are using the .conf file to load, edit the line **DNS =** and so that it shows **DNS = 10.7.0.1** before loading the file onto a device.
+
 ## Hide PiHole behind WireGuard
 
 Now that we have installed WireGuard and added a client, we need to configure PiHole so that it only will be available on devices connected to the VPN. 
 
-Run `pihole -r` and choose "Reconfigure". Change the Interface to `wg0`. Pick the default settings.
+Run `pihole -r` and choose "Reconfigure". Change the Interface to `wg0`. Press enter for default settings after.
 
 Now your PiHole DNS resolver is only accessible via your WireGuard interface! But the admin page is accessible via the public IP address. Edit the lighttpd **external.conf** file by running `nano /etc/lighttpd/external.conf` and inserting `server.bind = "10.7.0.1"`. Save this file, and run `reboot` to ensure every necessary service is restarted. 
 
-Test this configuration out my trying to access the PiHole admin console at http://[yourIP]/admin - you should receive no response. Connect to your WireGuard instance and go to http://10.7.0.1/admin - you should be able to access it now!
+Test this configuration out my trying to access the PiHole admin console at http://[yourIP]/admin - you should receive no response. Connect to your WireGuard tunnel and go to [http://10.7.0.1/admin](http://10.7.0.1/admin) - you should be able to access it now!
 
 ## *And that's all!*
