@@ -1,8 +1,8 @@
 # Mobile PiHole VPN - protected by WireGuard.
 
-This is a (semi) comprehensive tutorial on how to setup WireGuard on Ubuntu, and then setup a basic PiHole server that only listens on the client WireGuard subnet. This guide expects you to have moderate experience with any Linux distro, particularly Ubuntu, and also to have a basic understanding of what PiHole and WireGuard do and how they work. This guide is up to date as of 01/16/2021, and is written with the expectation of using Ubuntu 20.04 and the current versions of WireGuard and PiHole. I have tried to add enough information so that this could be used on other distros.
+This is a (semi) comprehensive tutorial on how to setup WireGuard on Ubuntu, and then setup a basic PiHole server that only listens on the client WireGuard subnet. This guide expects you to have moderate experience with any Linux distro, particularly Ubuntu, and also to have a basic understanding of what PiHole and WireGuard do and how they work. This guide is up to date as of 01/17/2021, and is written with the expectation of using Ubuntu 20.04 and the to-date versions of WireGuard and PiHole. I have tried to abstract this enough so that this could be used on other distros.
 
-First things first - get yourself a VPS. I've used Digital Ocean for years, but any provider that gives you root access should do. I'm currently using their cheapest offering, with 1 core and 1GB of RAM. This has not been an issue for me.
+First things first - get yourself a VPS. I've used Digital Ocean for years, but any provider that gives you root access should do. I'm currently using their cheapest offering, with 1 core and 1GB of RAM. Performance has not been an issue for me, but I've never had more than three devices on it simultaneously.
 
 ## Installing PiHole
 
@@ -34,7 +34,7 @@ Install WireGuard using this command:
 
     wget https://git.io/wireguard -O wireguard-install.sh && bash wireguard-install.sh
 
-This command is using [this wonderful script written by Nyr](https://github.com/Nyr/wireguard-install). This will setup WireGuard, and will provide an easy to use script for adding new devices to your server. 
+This command is using [this wonderful script written by Nyr](https://github.com/Nyr/wireguard-install). This will setup WireGuard and will provide an easy-to-use script for adding new devices to your server. 
 
 It will ask you which IPv4 address it should use - pick the one that is not a private address. On both servers that I have setup recently, it is the first option. It will then ask for the port - I allowed it to use the default, **51820**. Then, it will ask for a first client name - I'm using **ba-iphone**, but it is up to you. For the DNS resolver, use the **Current System Resolvers**, which should be the default choice.
 
