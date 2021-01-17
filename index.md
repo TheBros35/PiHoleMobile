@@ -1,8 +1,10 @@
 # Mobile PiHole VPN - protected by WireGuard.
 
-This is a (semi) comprehensive tutorial on how to setup WireGuard on Ubuntu, and then setup a basic PiHole server that only listens on the client WireGuard subnet. This guide expects you to have moderate experience with any Linux distro, particularly Ubuntu, and also to have a basic understanding of what PiHole and WireGuard do and how they work (in a general sense, at least). This guide is up to date as of 01/16/2021, and is using Ubuntu 20.04 and the latest versions of WireGuard in the repo, and PiHole as of this date.
+This is a (semi) comprehensive tutorial on how to setup WireGuard on Ubuntu, and then setup a basic PiHole server that only listens on the client WireGuard subnet. This guide expects you to have moderate experience with any Linux distro, particularly Ubuntu, and also to have a basic understanding of what PiHole and WireGuard do and how they work (in a general sense, at least). This guide is up to date as of 01/16/2021, and is written with the expectation of using Ubuntu 20.04 and the latest versions of WireGuard in the repo, and PiHole as of this date. I have tried to write this to accomodate other distros.
 
-First things first - get yourself a VM or VPS. I've used Digital Ocean for years, mainly because I enjoy their user interface. After doing the initial install of Ubuntu, and updating all packages, jump into the root user and install PiHole using this command:
+First things first - get yourself a VPS. I've used Digital Ocean for years, but any provider that gives you root access should do. I'm currently using their cheapeast offering, with 1 core and 1GB of RAM. 
+
+After doing the initial install of Ubuntu, and updating all packages, jump into the root user and install PiHole using this command:
 
     curl -sSL https://install.pi-hole.net | bash
 
@@ -20,7 +22,7 @@ Edit the file underneath the `eth0` interface (or another interface if appropria
                 - 127.0.0.1 
 
 
-run `netplan generate && netplan apply && reboot` to apply the new DNS resolver.
+Run `netplan generate && netplan apply && reboot` to apply the new DNS resolver.
 Now, your PiHole is listening on the open internet. This is extremly unsecure so let's protect it behind a VPN.
 
 Install WireGuard using this command:
